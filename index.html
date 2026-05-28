@@ -4,613 +4,223 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="theme-color" content="#111318">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Vansh Nutrition</title>
 <style>
-:root{
-  --bg:#111318;
-  --s1:#1a1d24;
-  --s2:#20232c;
-  --s3:#2a2d38;
-  --bdr:rgba(255,255,255,.09);
-  --t1:#eef0f4;
-  --t2:#7c8190;
-  --t3:#44464f;
-  --ac:#3fb950;
-  --ac2:#2ea043;
-  --org:#f0883e;
-  --blu:#58a6ff;
-  --gold:#d29922;
-  --teal:#39c5cf;
-  --pur:#bc8cff;
-  --red:#f85149;
-  --r:12px;
-  --rf:9999px;
-  --nav:60px;
-  --sab:env(safe-area-inset-bottom,0px);
-  --sat:env(safe-area-inset-top,0px);
-}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;height:100dvh;background:#0f1117;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden;}
+body{display:flex;flex-direction:column;}
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+/* HEADER */
+.hdr{padding:16px 20px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.hdr-title{font-size:20px;font-weight:700;color:#e6edf3;letter-spacing:-.02em;}
+.hdr-title span{color:#3fb950;}
+.date{font-size:13px;color:#484f58;}
 
-html,body{
-  height:100%;
+/* GRID */
+.grid{
+  flex:1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(3,1fr);
+  gap:10px;
+  padding:0 12px 12px;
   overflow:hidden;
-  overscroll-behavior:none;
 }
-
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
-  font-size:16px;
-  color:var(--t1);
-  background:var(--bg);
-  -webkit-font-smoothing:antialiased;
-}
-
-button,input{font:inherit;color:inherit;background:none;border:none;cursor:pointer;-webkit-appearance:none;appearance:none;}
-button:focus,input:focus{outline:none;}
-
-/* ── APP SHELL ── */
-#app{
+.card{
+  background:#161b22;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:16px;
   display:flex;
   flex-direction:column;
-  height:100dvh;
-  height:100vh; /* fallback */
-  overflow:hidden;
-}
-
-/* ── SCROLL AREA ── */
-#scroll{
-  flex:1;
-  overflow-y:auto;
-  overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior-y:contain;
-  padding-top:calc(16px + var(--sat));
-  padding-bottom:16px;
-}
-
-/* ── PAGES ── */
-.page{display:none;padding:0 16px;}
-.page.active{display:block;}
-
-/* ── HEADER ── */
-.hdr{
-  display:flex;
   align-items:center;
-  justify-content:space-between;
-  margin-bottom:18px;
+  justify-content:center;
+  gap:6px;
+  cursor:pointer;
+  padding:10px;
+  position:relative;
+  overflow:hidden;
+  transition:opacity .15s;
 }
-.hdr-title{font-size:20px;font-weight:700;letter-spacing:-.02em;}
-.hdr-title span{color:var(--ac);}
-.date-pill{
-  font-size:12px;color:var(--t2);
-  background:var(--s2);
-  padding:5px 12px;
-  border-radius:var(--rf);
-  border:1px solid var(--bdr);
-}
-
-/* ── SECTION TITLE ── */
-.sec-ttl{
-  font-size:11px;font-weight:700;
-  color:var(--t3);
-  text-transform:uppercase;letter-spacing:.08em;
-  margin-bottom:8px;margin-top:4px;
-}
-
-/* ── MACRO RINGS ── */
-.rings-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-bottom:18px;
-}
-.ring-card{
-  background:var(--s1);
-  border:1px solid var(--bdr);
-  border-radius:var(--r);
-  padding:10px 6px 12px;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-}
-.ring-card:active{opacity:.7;}
-.ring-wrap{position:relative;width:60px;height:60px;}
-.ring-wrap svg{transform:rotate(-90deg);}
-.ring-bg{fill:none;stroke:var(--s3);stroke-width:7;}
-.ring-fg{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .45s cubic-bezier(.16,1,.3,1);}
-.ring-center{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-}
-.ring-pct{font-size:12px;font-weight:800;line-height:1;}
-.ring-unit{font-size:9px;color:var(--t3);line-height:1.3;}
-.ring-name{font-size:10px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;text-align:center;}
-.ring-sub{font-size:9px;color:var(--t3);text-align:center;}
-
-/* ── MICRO LIST ── */
-.micro-list{display:flex;flex-direction:column;gap:2px;margin-bottom:20px;}
-.cat-lbl{
-  font-size:10px;font-weight:700;color:var(--t3);
-  text-transform:uppercase;letter-spacing:.09em;
-  padding:10px 2px 4px;
-}
-.mrow{
-  background:var(--s1);
-  border:1px solid var(--bdr);
-  border-radius:var(--r);
-  padding:13px 14px;
-  display:flex;align-items:center;gap:12px;
-  min-height:56px;
-}
-.mrow:active{background:var(--s2);}
-.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.mrow-info{flex:1;min-width:0;}
-.mrow-name{font-size:15px;font-weight:500;}
-.mrow-sub{font-size:12px;color:var(--t2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.mrow-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
-.bar-mini{width:54px;height:4px;background:var(--s3);border-radius:var(--rf);overflow:hidden;}
-.bar-fill{height:100%;border-radius:var(--rf);transition:width .4s cubic-bezier(.16,1,.3,1);}
-.badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:var(--rf);white-space:nowrap;}
-.badge.none{background:var(--s3);color:var(--t3);}
-.badge.part{background:rgba(240,136,62,.18);color:var(--org);}
-.badge.done{background:rgba(63,185,80,.18);color:var(--ac);}
-
-/* ── SUPP LIST ── */
-.supp-list{display:flex;flex-direction:column;gap:2px;margin-bottom:20px;}
-.srow{
-  background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);
-  padding:14px;display:flex;align-items:center;gap:14px;min-height:64px;
-}
-.srow:active{background:var(--s2);}
-.chk{
-  width:26px;height:26px;border-radius:50%;border:2px solid var(--bdr);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  transition:all .2s;
-}
-.srow.done .chk{background:var(--ac);border-color:var(--ac);}
-.chk svg{opacity:0;transition:opacity .2s;}
-.srow.done .chk svg{opacity:1;}
-.srow-info{flex:1;}
-.srow-nm{font-size:15px;font-weight:500;}
-.srow.done .srow-nm{text-decoration:line-through;color:var(--t2);}
-.srow-det{font-size:12px;color:var(--t2);margin-top:2px;}
-.srow-when{font-size:11px;color:var(--t3);margin-top:1px;}
-
-/* ── SUMMARY ── */
-.summary-card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:16px;overflow:hidden;}
-.sum-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--bdr);}
-.sum-row:last-child{border-bottom:none;}
-.sum-lbl{font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;}
-.sum-right{text-align:right;}
-.sum-val{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;}
-.sum-pct{font-size:10px;color:var(--t3);margin-top:1px;}
-.sum-section-hdr{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;padding:10px 16px 6px;background:var(--s2);}
-.action-btn{
-  width:100%;border-radius:var(--r);padding:16px;
-  font-size:16px;font-weight:700;margin-bottom:10px;
-}
-.action-btn.danger{background:var(--s2);border:1px solid var(--bdr);color:var(--red);}
-.action-btn.danger:active{background:var(--s3);}
-.action-btn.primary{background:var(--ac);color:#fff;}
-.action-btn.primary:active{background:var(--ac2);}
-
-/* ── BOTTOM NAV ── */
-#nav{
-  flex-shrink:0;
-  height:calc(var(--nav) + var(--sab));
-  background:var(--s1);
-  border-top:1px solid var(--bdr);
-  display:flex;
-  padding-bottom:var(--sab);
-}
-.nbtn{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;padding:8px 4px;
-}
-.nbtn:active{opacity:.6;}
-.nbtn svg{width:22px;height:22px;color:var(--t3);transition:color .15s;}
-.nbtn span{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.04em;transition:color .15s;}
-.nbtn.active svg,.nbtn.active span{color:var(--ac);}
-
-/* ── SHEET OVERLAY ── */
-#overlay{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,0);
-  z-index:200;
-  pointer-events:none;
-  transition:background .25s;
-}
-#overlay.open{background:rgba(0,0,0,.6);pointer-events:all;}
-
-#sheet{
-  position:fixed;
+.card:active{opacity:.65;}
+.progress-bar{
+  position:absolute;
   bottom:0;left:0;right:0;
-  background:var(--s1);
-  border-radius:20px 20px 0 0;
-  border-top:1px solid var(--bdr);
-  padding:20px 20px calc(24px + var(--sab));
-  transform:translateY(100%);
-  transition:transform .32s cubic-bezier(.16,1,.3,1);
-  z-index:201;
-  max-height:85vh;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
+  height:4px;
+  background:rgba(255,255,255,.06);
 }
-#sheet.open{transform:translateY(0);}
-.sh-handle{width:36px;height:4px;background:var(--s3);border-radius:var(--rf);margin:0 auto 18px;}
-.sh-title{font-size:18px;font-weight:700;margin-bottom:3px;}
-.sh-sub{font-size:13px;color:var(--t2);margin-bottom:18px;}
-.sh-input{
-  width:100%;
-  background:var(--s2);
-  border:1.5px solid var(--bdr);
-  border-radius:var(--r);
-  padding:14px;
-  font-size:30px;font-weight:800;
-  font-variant-numeric:tabular-nums;
-  text-align:center;
-  color:var(--t1);
-  margin-bottom:12px;
+.progress-fill{
+  height:100%;
+  border-radius:0 2px 2px 0;
+  transition:width .4s cubic-bezier(.16,1,.3,1);
+}
+.card-icon{font-size:26px;line-height:1;}
+.card-name{font-size:13px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.05em;}
+.card-val{font-size:28px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;}
+.card-tgt{font-size:12px;color:#484f58;font-variant-numeric:tabular-nums;}
+.card-pct{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;margin-top:2px;}
+
+/* SHEET */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:50;display:none;align-items:flex-end;justify-content:center;}
+.overlay.open{display:flex;}
+.sheet{
+  background:#161b22;
+  border-radius:24px 24px 0 0;
+  border-top:1px solid rgba(255,255,255,.08);
+  width:100%;max-width:500px;
+  padding:0 20px calc(28px + env(safe-area-inset-bottom,0px));
+  max-height:80dvh;overflow-y:auto;
+}
+.handle{width:40px;height:4px;background:#21262d;border-radius:99px;margin:14px auto 20px;}
+.sheet-name{font-size:22px;font-weight:700;color:#e6edf3;margin-bottom:4px;text-align:center;}
+.sheet-tgt{font-size:14px;color:#8b949e;text-align:center;margin-bottom:22px;}
+.big-inp{
+  width:100%;background:#1c2128;border:2px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:18px;font-size:40px;font-weight:800;
+  color:#e6edf3;text-align:center;font-variant-numeric:tabular-nums;
+  -webkit-appearance:none;margin-bottom:14px;transition:border-color .15s;
+}
+.big-inp:focus{border-color:#3fb950;outline:none;}
+.quick{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;justify-content:center;}
+.qb{
+  background:#1c2128;border:1px solid rgba(255,255,255,.08);border-radius:99px;
+  padding:10px 18px;font-size:14px;color:#8b949e;min-height:44px;
+  transition:all .15s;
+}
+.qb:active{background:#21262d;color:#e6edf3;}
+.save{
+  width:100%;background:#3fb950;border-radius:14px;
+  padding:18px;font-size:18px;font-weight:700;color:#fff;
+  min-height:56px;transition:background .15s;
   -webkit-appearance:none;
-  transition:border-color .15s;
 }
-.sh-input:focus{border-color:var(--ac);}
-.qbtns{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
-.qbtn{
-  background:var(--s2);border:1px solid var(--bdr);border-radius:var(--rf);
-  padding:9px 16px;font-size:13px;color:var(--t2);
+.save:active{background:#2ea043;}
+.cancel{width:100%;padding:14px;font-size:16px;color:#484f58;min-height:48px;}
+
+/* RESET */
+.reset-row{padding:8px 12px 12px;flex-shrink:0;}
+.reset{
+  width:100%;background:transparent;border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;padding:14px;font-size:14px;font-weight:600;
+  color:#484f58;min-height:48px;transition:all .15s;
 }
-.qbtn:active{background:var(--s3);color:var(--t1);}
-.sh-save{
-  width:100%;background:var(--ac);border-radius:var(--r);
-  padding:16px;font-size:17px;font-weight:700;color:#fff;
-}
-.sh-save:active{background:var(--ac2);}
-.sh-cancel{width:100%;padding:12px;font-size:15px;color:var(--t2);margin-top:6px;}
+.reset:active{background:#161b22;color:#f85149;}
 </style>
 </head>
 <body>
 
-<div id="app">
+<div class="hdr">
+  <div class="hdr-title">Vansh <span>Nutrition</span></div>
+  <div class="date" id="dateEl"></div>
+</div>
 
-  <!-- SCROLL AREA -->
-  <div id="scroll">
+<div class="grid" id="grid"></div>
 
-    <!-- TRACK PAGE -->
-    <div class="page active" id="pg-track">
-      <div class="hdr">
-        <div class="hdr-title">Vansh <span>Nutrition</span></div>
-        <div class="date-pill" id="dp1"></div>
-      </div>
-      <div class="sec-ttl">Macros — tap to log</div>
-      <div class="rings-grid" id="macroGrid"></div>
-      <div class="sec-ttl">Micronutrients — tap to log</div>
-      <div class="micro-list" id="microGrid"></div>
-    </div>
-
-    <!-- SUPPS PAGE -->
-    <div class="page" id="pg-supps">
-      <div class="hdr">
-        <div class="hdr-title">Supplements</div>
-        <div class="date-pill" id="dp2"></div>
-      </div>
-      <div class="sec-ttl">Tap to check off</div>
-      <div class="supp-list" id="suppGrid"></div>
-    </div>
-
-    <!-- SUMMARY PAGE -->
-    <div class="page" id="pg-summary">
-      <div class="hdr">
-        <div class="hdr-title">Summary</div>
-        <div class="date-pill" id="dp3"></div>
-      </div>
-      <div id="summaryContent"></div>
-      <button class="action-btn danger" onclick="resetDay()">↺  Reset Today</button>
-      <button class="action-btn primary" onclick="newDay()">Start New Day</button>
-    </div>
-
-  </div><!-- /scroll -->
-
-  <!-- BOTTOM NAV -->
-  <nav id="nav">
-    <button class="nbtn active" id="nb-track" onclick="goTo('track',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      <span>Track</span>
-    </button>
-    <button class="nbtn" id="nb-supps" onclick="goTo('supps',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-      <span>Supps</span>
-    </button>
-    <button class="nbtn" id="nb-summary" onclick="goTo('summary',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-      <span>Summary</span>
-    </button>
-  </nav>
-
-</div><!-- /app -->
+<div class="reset-row">
+  <button class="reset" onclick="resetAll()">Reset Day</button>
+</div>
 
 <!-- SHEET -->
-<div id="overlay" onclick="closeSheet()"></div>
-<div id="sheet">
-  <div class="sh-handle"></div>
-  <div class="sh-title" id="shTitle"></div>
-  <div class="sh-sub" id="shSub"></div>
-  <input class="sh-input" type="number" id="shInput" inputmode="decimal" placeholder="0">
-  <div class="qbtns" id="shQbtns"></div>
-  <button class="sh-save" onclick="saveSheet()">Save</button>
-  <button class="sh-cancel" onclick="closeSheet()">Cancel</button>
+<div class="overlay" id="overlay" onclick="closeOverlay(event)">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="sheet-name" id="sName"></div>
+    <div class="sheet-tgt" id="sTgt"></div>
+    <input class="big-inp" type="number" id="sInput" inputmode="decimal" placeholder="0">
+    <div class="quick" id="sQuick"></div>
+    <button class="save" onclick="save()">Save</button>
+    <button class="cancel" onclick="close_()">Cancel</button>
+  </div>
 </div>
 
 <script>
-var MACROS=[
-  {id:'cal', name:'Calories', tgt:2929,unit:'kcal',   c:'var(--org)'},
-  {id:'prot',name:'Protein',  tgt:190, unit:'g',      c:'var(--blu)'},
-  {id:'carb',name:'Carbs',    tgt:310, unit:'g',      c:'var(--gold)'},
-  {id:'fat', name:'Fat',      tgt:95,  unit:'g',      c:'var(--pur)'},
-  {id:'fib', name:'Fiber',    tgt:45,  unit:'g',      c:'var(--teal)'},
-  {id:'wat', name:'Water',    tgt:3.5, unit:'L',      c:'var(--blu)'},
+var DATA = [
+  {id:'cal',  name:'Calories', icon:'🔥', tgt:2929, unit:'kcal', color:'#f0883e', quick:[500,1000,1500,2000,2929]},
+  {id:'prot', name:'Protein',  icon:'💪', tgt:190,  unit:'g',    color:'#58a6ff', quick:[30,60,100,150,190]},
+  {id:'carb', name:'Carbs',    icon:'🌾', tgt:310,  unit:'g',    color:'#d29922', quick:[50,100,150,200,310]},
+  {id:'fat',  name:'Fat',      icon:'🥑', tgt:95,   unit:'g',    color:'#bc8cff', quick:[20,40,60,80,95]},
+  {id:'fib',  name:'Fiber',    icon:'🥦', tgt:45,   unit:'g',    color:'#39c5cf', quick:[10,20,30,45]},
+  {id:'wat',  name:'Water',    icon:'💧', tgt:3.5,  unit:'L',    color:'#58a6ff', quick:[0.5,1,2,3,3.5]},
 ];
 
-var MICROS=[
-  {cat:'Muscle & Recomp'},
-  {id:'zinc', name:'Zinc',      tgt:18,   unit:'mg',        c:'var(--ac)',   q:[5,10,15]},
-  {id:'mag',  name:'Magnesium', tgt:420,  unit:'mg',        c:'var(--blu)',  q:[100,200,300]},
-  {id:'vitd', name:'Vitamin D3',tgt:3000, unit:'IU',        c:'var(--org)',  q:[1000,2000,3000]},
-  {id:'iron', name:'Iron',      tgt:12,   unit:'mg',        c:'var(--red)',  q:[3,6,9,12]},
-  {id:'creat',name:'Creatine',  tgt:5,    unit:'g',         c:'var(--ac)',   q:[2.5,5]},
-  {cat:'Hair & Skin'},
-  {id:'vitc', name:'Vitamin C', tgt:500,  unit:'mg',        c:'var(--org)',  q:[100,250,500]},
-  {id:'vita', name:'Vitamin A', tgt:900,  unit:'mcg',       c:'var(--gold)', q:[300,600,900]},
-  {id:'vite', name:'Vitamin E', tgt:17,   unit:'mg',        c:'var(--pur)',  q:[7,15,17]},
-  {id:'selen',name:'Selenium',  tgt:75,   unit:'mcg',       c:'var(--teal)', q:[25,55,75]},
-  {id:'coll', name:'Collagen',  tgt:10,   unit:'g',         c:'var(--pur)',  q:[5,10]},
-  {cat:'Heart & Energy'},
-  {id:'omega',name:'Omega-3',   tgt:2.5,  unit:'g',         c:'var(--blu)',  q:[1,2,2.5]},
-  {id:'potas',name:'Potassium', tgt:3400, unit:'mg',        c:'var(--gold)', q:[500,1000,2000]},
-  {id:'calc', name:'Calcium',   tgt:1000, unit:'mg',        c:'var(--teal)', q:[200,500,1000]},
-  {id:'b9',   name:'Folate B9', tgt:400,  unit:'mcg',       c:'var(--ac)',   q:[100,200,400]},
-  {id:'b12',  name:'Vitamin B12',tgt:2.4, unit:'mcg',       c:'var(--red)',  q:[1,2,2.4]},
-];
+var vals = {};
+var cur = null;
 
-var SUPPS=[
-  {id:'s1',name:'Whey Protein',       dose:'2 scoops (60g)',   when:'5:00 am — with oats'},
-  {id:'s2',name:'Creatine Mono',      dose:'5g',               when:'5:00 am — with oats'},
-  {id:'s3',name:'Fish Oil (Omega-3)', dose:'2–3g EPA+DHA',     when:'7:30 am — with eggs'},
-  {id:'s4',name:'Vitamin D3',         dose:'3,000 IU',         when:'7:30 am — with eggs'},
-  {id:'s5',name:'Vitamin C (morning)',dose:'250 mg',           when:'10:30 am — snack time'},
-  {id:'s6',name:'Magnesium Glycinate',dose:'250 mg',           when:'10:00 pm — before bed'},
-  {id:'s7',name:'Collagen Peptides',  dose:'10 g',             when:'10:00 pm — before bed'},
-  {id:'s8',name:'Vitamin C (night)',  dose:'250 mg',           when:'10:00 pm — with collagen'},
-];
-
-var S={m:{},v:{},s:{}};
-var curId=null,curMacro=false;
-
-function today(){
-  var d=new Date();
-  var days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return days[d.getDay()]+' '+d.getDate()+' '+months[d.getMonth()];
+function pct(id){
+  var d = DATA.find(function(x){return x.id===id;});
+  var v = parseFloat(vals[id])||0;
+  return Math.min(Math.round(v/d.tgt*100), 100);
 }
 
-function gm(id){return parseFloat(S.m[id])||0;}
-function gv(id){return parseFloat(S.v[id])||0;}
-function pct(v,t){return Math.min(Math.round(v/t*100),999);}
-
-function renderMacros(){
-  var el=document.getElementById('macroGrid');
-  el.innerHTML='';
-  var R=27;
-  var C=2*Math.PI*R;
-  MACROS.forEach(function(m){
-    var v=gm(m.id);
-    var p=pct(v,m.tgt);
-    var off=C-(C*Math.min(v/m.tgt,1));
-    var vd=m.unit==='kcal'?Math.round(v):Math.round(v*10)/10;
-    var card=document.createElement('button');
-    card.className='ring-card';
-    card.setAttribute('aria-label',m.name);
-    card.onclick=function(e){e.stopPropagation();openSheet(m.id,m.name,m.tgt,m.unit,true,null);};
-    card.innerHTML=
-      '<div class="ring-wrap">'+
-      '<svg width="60" height="60" viewBox="0 0 60 60">'+
-        '<circle class="ring-bg" cx="30" cy="30" r="'+R+'"/>'+
-        '<circle class="ring-fg" cx="30" cy="30" r="'+R+'"'+
-          ' stroke="'+m.c+'"'+
-          ' stroke-dasharray="'+C+'"'+
-          ' stroke-dashoffset="'+off+'"/>'+
-      '</svg>'+
-      '<div class="ring-center">'+
-        '<span class="ring-pct" style="color:'+m.c+'">'+p+'%</span>'+
-        '<span class="ring-unit">'+vd+'</span>'+
-      '</div>'+
-      '</div>'+
-      '<div class="ring-name">'+m.name+'</div>'+
-      '<div class="ring-sub">/'+m.tgt+' '+m.unit+'</div>';
-    el.appendChild(card);
+function render(){
+  var g = document.getElementById('grid');
+  g.innerHTML = '';
+  DATA.forEach(function(d){
+    var v = parseFloat(vals[d.id])||0;
+    var p = pct(d.id);
+    var pctCls = p>=100 ? 'background:rgba(63,185,80,.15);color:#3fb950' : p>0 ? 'background:rgba(240,136,62,.12);color:'+d.color : 'background:#21262d;color:#484f58';
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = function(){openSheet(d.id);};
+    card.innerHTML =
+      '<div class="progress-bar"><div class="progress-fill" style="width:'+p+'%;background:'+d.color+'"></div></div>'+
+      '<div class="card-icon">'+d.icon+'</div>'+
+      '<div class="card-name">'+d.name+'</div>'+
+      '<div class="card-val" style="color:'+d.color+'">'+formatVal(v, d.unit)+'</div>'+
+      '<div class="card-tgt">/ '+d.tgt+' '+d.unit+'</div>'+
+      '<div class="card-pct" style="'+pctCls+'">'+p+'%</div>';
+    g.appendChild(card);
   });
 }
 
-function renderMicros(){
-  var el=document.getElementById('microGrid');
-  el.innerHTML='';
-  MICROS.forEach(function(m){
-    if(m.cat){
-      var lbl=document.createElement('div');
-      lbl.className='cat-lbl';lbl.textContent=m.cat;
-      el.appendChild(lbl);return;
-    }
-    var v=gv(m.id);
-    var p=pct(v,m.tgt);
-    var bw=Math.min(p,100);
-    var sc=v===0?'none':p>=100?'done':'part';
-    var st=v===0?'—':p>=100?'✓':p+'%';
-    var vd=Math.round(v*10)/10;
-    var row=document.createElement('button');
-    row.className='mrow';
-    row.setAttribute('aria-label',m.name);
-    row.onclick=function(e){e.stopPropagation();openSheet(m.id,m.name,m.tgt,m.unit,false,m.q);};
-    row.innerHTML=
-      '<div class="dot" style="background:'+m.c+'"></div>'+
-      '<div class="mrow-info">'+
-        '<div class="mrow-name">'+m.name+'</div>'+
-        '<div class="mrow-sub">'+vd+' / '+m.tgt+' '+m.unit+'</div>'+
-      '</div>'+
-      '<div class="mrow-right">'+
-        '<span class="badge '+sc+'">'+st+'</span>'+
-        '<div class="bar-mini"><div class="bar-fill" style="width:'+bw+'%;background:'+m.c+'"></div></div>'+
-      '</div>';
-    el.appendChild(row);
-  });
+function formatVal(v, unit){
+  if(unit === 'L') return (Math.round(v*10)/10).toFixed(1);
+  if(unit === 'kcal') return Math.round(v).toLocaleString();
+  return Math.round(v*10)/10;
 }
 
-function renderSupps(){
-  var el=document.getElementById('suppGrid');
-  el.innerHTML='';
-  SUPPS.forEach(function(s){
-    var done=!!S.s[s.id];
-    var row=document.createElement('button');
-    row.className='srow'+(done?' done':'');
-    row.id='sr_'+s.id;
-    row.setAttribute('aria-label',s.name);
-    row.onclick=function(e){e.stopPropagation();S.s[s.id]=!S.s[s.id];renderSupps();renderSummary();};
-    row.innerHTML=
-      '<div class="chk">'+
-        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">'+
-          '<polyline points="20 6 9 17 4 12"/>'+
-        '</svg>'+
-      '</div>'+
-      '<div class="srow-info">'+
-        '<div class="srow-nm">'+s.name+'</div>'+
-        '<div class="srow-det">'+s.dose+'</div>'+
-        '<div class="srow-when">'+s.when+'</div>'+
-      '</div>';
-    el.appendChild(row);
+function openSheet(id){
+  cur = id;
+  var d = DATA.find(function(x){return x.id===id;});
+  document.getElementById('sName').textContent = d.icon+' '+d.name;
+  document.getElementById('sTgt').textContent = 'Target: '+d.tgt+' '+d.unit;
+  document.getElementById('sInput').value = vals[id]||'';
+  var qEl = document.getElementById('sQuick');
+  qEl.innerHTML = '';
+  d.quick.forEach(function(q){
+    var b = document.createElement('button');
+    b.className = 'qb';
+    b.textContent = q+' '+d.unit;
+    b.onclick = function(){document.getElementById('sInput').value = q;};
+    qEl.appendChild(b);
   });
-}
-
-function renderSummary(){
-  var el=document.getElementById('summaryContent');
-  var h='<div class="summary-card">';
-  h+='<div class="sum-section-hdr">Macros</div>';
-  MACROS.forEach(function(m){
-    var v=gm(m.id);var p=pct(v,m.tgt);
-    var vd=m.unit==='kcal'?Math.round(v):Math.round(v*10)/10;
-    var col=p>=100?'var(--ac)':v>0?'var(--org)':' var(--t3)';
-    h+='<div class="sum-row">'+
-      '<span class="sum-lbl">'+m.name+'</span>'+
-      '<div class="sum-right">'+
-        '<div class="sum-val" style="color:'+col+'">'+vd+' / '+m.tgt+' '+m.unit+'</div>'+
-        '<div class="sum-pct">'+p+'%</div>'+
-      '</div></div>';
-  });
-  h+='</div>';
-  h+='<div class="summary-card">';
-  h+='<div class="sum-section-hdr">Micronutrients</div>';
-  MICROS.forEach(function(m){
-    if(m.cat) return;
-    var v=gv(m.id);var p=pct(v,m.tgt);
-    var col=p>=100?'var(--ac)':v>0?'var(--org)':' var(--t3)';
-    var vd=Math.round(v*10)/10;
-    h+='<div class="sum-row">'+
-      '<span class="sum-lbl"><span style="width:7px;height:7px;border-radius:50%;background:'+m.c+';display:inline-block;flex-shrink:0"></span>'+m.name+'</span>'+
-      '<div class="sum-right">'+
-        '<div class="sum-val" style="color:'+col+'">'+vd+' / '+m.tgt+' '+m.unit+'</div>'+
-        '<div class="sum-pct">'+p+'%</div>'+
-      '</div></div>';
-  });
-  h+='</div>';
-  var done=SUPPS.filter(function(s){return S.s[s.id];}).length;
-  h+='<div class="summary-card">';
-  h+='<div class="sum-section-hdr">Supplements</div>';
-  h+='<div class="sum-row">'+
-    '<span class="sum-lbl">Taken today</span>'+
-    '<div class="sum-right">'+
-      '<div class="sum-val" style="color:'+(done===SUPPS.length?'var(--ac)':'var(--org)')+'">'+done+' / '+SUPPS.length+'</div>'+
-    '</div></div>';
-  h+='</div>';
-  el.innerHTML=h;
-}
-
-function openSheet(id,name,tgt,unit,isMacro,quick){
-  curId=id;curMacro=isMacro;
-  document.getElementById('shTitle').textContent=name;
-  document.getElementById('shSub').textContent='Target: '+tgt+' '+unit;
-  var cur=isMacro?gm(id):gv(id);
-  document.getElementById('shInput').value=cur||''
-  var qel=document.getElementById('shQbtns');
-  qel.innerHTML='';
-  if(quick){
-    quick.forEach(function(q){
-      var b=document.createElement('button');
-      b.className='qbtn';b.textContent='+'+q;
-      b.onclick=function(e){
-        e.stopPropagation();
-        var v=parseFloat(document.getElementById('shInput').value)||0;
-        document.getElementById('shInput').value=Math.round((v+q)*1000)/1000;
-      };
-      qel.appendChild(b);
-    });
-  }
-  document.getElementById('sheet').classList.add('open');
   document.getElementById('overlay').classList.add('open');
-  setTimeout(function(){document.getElementById('shInput').focus();},80);
+  setTimeout(function(){document.getElementById('sInput').focus();}, 200);
 }
 
-function closeSheet(){
-  document.getElementById('sheet').classList.remove('open');
-  document.getElementById('overlay').classList.remove('open');
-  curId=null;
+function save(){
+  if(!cur) return;
+  var v = parseFloat(document.getElementById('sInput').value)||0;
+  vals[cur] = v;
+  close_();
+  render();
 }
 
-function saveSheet(){
-  if(!curId)return;
-  var v=parseFloat(document.getElementById('shInput').value)||0;
-  if(curMacro)S.m[curId]=v;else S.v[curId]=v;
-  closeSheet();
-  renderMacros();
-  renderMicros();
-  renderSummary();
+function closeOverlay(e){if(e.target===document.getElementById('overlay'))close_();}
+function close_(){document.getElementById('overlay').classList.remove('open');cur=null;}
+
+function resetAll(){
+  if(!confirm('Reset all values?')) return;
+  vals = {};
+  render();
 }
 
-function goTo(name,btn){
-  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
-  document.querySelectorAll('.nbtn').forEach(function(b){b.classList.remove('active');});
-  document.getElementById('pg-'+name).classList.add('active');
-  btn.classList.add('active');
-  document.getElementById('scroll').scrollTop=0;
-  if(name==='summary')renderSummary();
-}
+var d = new Date();
+var days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+document.getElementById('dateEl').textContent = days[d.getDay()]+' '+d.getDate()+' '+months[d.getMonth()];
 
-function resetDay(){
-  if(!confirm('Reset all values?'))return;
-  S={m:{},v:{},s:{}};
-  renderMacros();renderMicros();renderSupps();renderSummary();
-}
-
-function newDay(){
-  if(!confirm('Start a fresh new day?'))return;
-  S={m:{},v:{},s:{}};
-  renderMacros();renderMicros();renderSupps();
-  goTo('track',document.getElementById('nb-track'));
-}
-
-var td=today();
-['dp1','dp2','dp3'].forEach(function(i){
-  var e=document.getElementById(i);if(e)e.textContent=td;
-});
-
-renderMacros();
-renderMicros();
-renderSupps();
-
-document.addEventListener('keydown',function(e){
-  if(e.key==='Enter'&&document.getElementById('sheet').classList.contains('open')){
-    saveSheet();
-  }
-  if(e.key==='Escape')closeSheet();
-});
+render();
 </script>
 </body>
 </html>
